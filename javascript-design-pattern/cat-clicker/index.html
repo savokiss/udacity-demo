@@ -1,36 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Cat Clicker</title>
-    <style>
-        .count-area{
-            font-size: 20px;
-        }
-    </style>
+	<meta charset="UTF-8">
+	<title>Cat Clicker</title>
+	<style>
+		.count-area {
+			font-size: 20px;
+		}
+	</style>
 </head>
+
 <body>
-    
-    <img id="cat" src="./cat.jpg" alt="cat">
-    <div class="count-area">
-        count: 
-        <span id="count"></span>
-    </div>
-    <script>
-        var img = document.getElementById('cat');
-        var countArea = document.getElementById('count')
-        var count = 0;
 
-        img.addEventListener('click', function(){
-            count++;
-            updateCount();
-        }, false);
+	<div class="cat-item">
+		<img class="cat-img" src="./cat.jpg" alt="cat1">
+		<div class="cat-count">
+			cat count:
+			<span class="cat-count-display"></span>
+		</div>
+	</div>
 
-        function updateCount(){
-            countArea.innerHTML = count;
-        }
-        updateCount();
+	<div class="cat-item">
+		<img class="cat-img" src="./cat2.jpg" alt="cat2">
+		<div class="cat-count">
+			cat2 count:
+			<span class="cat-count-display"></span>
+		</div>
+	</div>
+
+	<script>
+        var catItems = document.getElementsByClassName('cat-item')
+        console.log(catItems)
+        Array.prototype.forEach.call(catItems, function(value){
+            value.count = 0;
+
+            value.addEventListener('click', function(){
+                value.count++;
+                value.querySelector('.cat-count-display').innerHTML = value.count;
+            }, false)
+        })
     
     </script>
 </body>
+
 </html>
