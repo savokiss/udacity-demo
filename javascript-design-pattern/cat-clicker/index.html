@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cat Clicker</title>
+    <style>
+        .count-area{
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    
+    <img id="cat" src="./cat.jpg" alt="cat">
+    <div class="count-area">
+        count: 
+        <span id="count"></span>
+    </div>
+    <script>
+        var img = document.getElementById('cat');
+        var countArea = document.getElementById('count')
+        var count = 0;
+
+        img.addEventListener('click', function(){
+            count++;
+            updateCount();
+        }, false);
+
+        function updateCount(){
+            countArea.innerHTML = count;
+        }
+        updateCount();
+    
+    </script>
+</body>
+</html>
