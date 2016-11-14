@@ -22,6 +22,7 @@
     </ul>
 
     <div class="cat-area">
+        <div class="cat-name"></div>
         <img class="cat-img" src="" alt="cat">
         <div class="cat-count"></div>
     </div>
@@ -29,10 +30,12 @@
 	<script>
         var counts = [0,0,0,0,0];
         var catItems = document.getElementsByClassName('cat-item')
+        var catName = document.querySelector('.cat-name')
         var catImg = document.querySelector('.cat-img')
         var catCount = document.querySelector('.cat-count')
         Array.prototype.forEach.call(catItems, function(value, index){
             value.addEventListener('click', function(){
+                catName.innerHTML = value.innerHTML;
                 catImg.src = value.innerHTML + '.jpg';
                 counts[index]++;
                 catCount.innerHTML = counts[index];
