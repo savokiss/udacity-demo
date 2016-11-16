@@ -2,18 +2,18 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<title>Cat Clicker</title>
-	<style>
-		ul{
+    <meta charset="UTF-8">
+    <title>Cat Clicker</title>
+    <style>
+        ul {
             font-size: 20px;
         }
-	</style>
+    </style>
 </head>
 
 <body>
 
-	<ul>
+    <ul>
         <li class="cat-item">cat</li>
         <li class="cat-item">cat2</li>
         <li class="cat-item">cat3</li>
@@ -27,19 +27,28 @@
         <div class="cat-count"></div>
     </div>
 
-	<script>
+    <script>
         var counts = [0,0,0,0,0];
         var catItems = document.getElementsByClassName('cat-item')
         var catName = document.querySelector('.cat-name')
         var catImg = document.querySelector('.cat-img')
         var catCount = document.querySelector('.cat-count')
+        function listener(index){
+            counts[index]++;
+            catCount.innerHTML = counts[index];
+        }
         Array.prototype.forEach.call(catItems, function(value, index){
             value.addEventListener('click', function(){
+                catImg.removeEventListener('click', function(){
+                    listener(index);
+                });
                 catName.innerHTML = value.innerHTML;
                 catImg.src = value.innerHTML + '.jpg';
-                counts[index]++;
+                catImg.addEventListener('click', function(){
+                    listener(index);
+                }, false)
                 catCount.innerHTML = counts[index];
-            });
+            }, false);
         })
     
     </script>

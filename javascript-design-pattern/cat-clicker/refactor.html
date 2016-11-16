@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cat Clicker</title>
+    <style>
+        ul {
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <ul class="list-view">
+        
+    </ul>
+
+    <div class="cat-view">
+        <div class="cat-name"></div>
+        <img class="cat-img" src="" alt="cat">
+        <div class="cat-count"></div>
+    </div>
+
+    <script>
+        var model = {
+            cat: null,
+            cats: [
+                { name: 'cat1', count: 0 , img: 'cat.jpg'},
+                { name: 'cat2', count: 0 , img: 'cat2.jpg'},
+                { name: 'cat3', count: 0 , img: 'cat3.jpg'},
+                { name: 'cat4', count: 0 , img: 'cat4.jpg'},
+                { name: 'cat5', count: 0 , img: 'cat5.jpg'},
+            ]
+        };
+        var catView = {
+            dom: null,
+            catName: null,
+            catImg: null,
+            catCount: null,
+            render: function(){
+                var cat = octopus.getCat();
+                this.catName.innerHTML = cat.name;
+                this.catCount.innerHTML = cat.count;
+                this.catImg.src = cat.img;
+                this.catImg.addEventListener('click', function(){
+                    octopus.currentCountIncrease();
+                    this.render();
+                }.bind(this))
+            },
+            init: function(){
+                this.dom = document.querySelector('.cat-view');
+                this.catName = document.querySelector('.cat-name');
+                this.catImg = document.querySelector('.cat-img');
+                this.catCount = document.querySelector('.cat-count');
+            }
+        };
+        var listView = {
+            dom: null,
+            render: function(){
+                octopus.getAllCats().forEach(function(value){
+                    var li = document.createElement('li');
+                    li.innerHTML = value.name;
+                    li.addEventListener('click', function(){
+                        octopus.setCurrentCat(value);
+                        octopus.render();
+                    }, false);
+                    this.dom.append(li);
+                }.bind(this))
+                var li = document.createElement('li');
+            },
+            init: function(){
+                this.dom = document.querySelector('.list-view');
+                this.render();
+            }
+        }
+        var octopus = {
+            setCurrentCat: function(cat){
+                model.cat = cat;
+            },
+            currentCountIncrease: function(){
+                model.cat.count++;
+            },
+            getAllCats: function(){
+                return model.cats;
+            },
+            getCat: function(){
+                return model.cat;
+            },
+            render: function(){
+                catView.render();
+            },
+            init: function(){
+                catView.init();
+                listView.init();
+            }
+        }
+
+        octopus.init();
+    
+    </script>
+</body>
+
+</html>
