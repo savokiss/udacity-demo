@@ -39,21 +39,27 @@
             catName: null,
             catImg: null,
             catCount: null,
+            listener: function(){
+                octopus.currentCountIncrease();
+                this.renderCount();
+            },
             render: function(){
                 var cat = octopus.getCat();
                 this.catName.innerHTML = cat.name;
                 this.catCount.innerHTML = cat.count;
                 this.catImg.src = cat.img;
-                this.catImg.addEventListener('click', function(){
-                    octopus.currentCountIncrease();
-                    this.render();
-                }.bind(this))
+                
+            },
+            renderCount: function(){
+                var cat = octopus.getCat();
+                this.catCount.innerHTML = cat.count;
             },
             init: function(){
                 this.dom = document.querySelector('.cat-view');
                 this.catName = document.querySelector('.cat-name');
                 this.catImg = document.querySelector('.cat-img');
                 this.catCount = document.querySelector('.cat-count');
+                this.catImg.addEventListener('click', this.listener.bind(this), false);
             }
         };
         var listView = {
@@ -68,7 +74,6 @@
                     }, false);
                     this.dom.append(li);
                 }.bind(this))
-                var li = document.createElement('li');
             },
             init: function(){
                 this.dom = document.querySelector('.list-view');
