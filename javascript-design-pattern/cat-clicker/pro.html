@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cat Clicker</title>
+    <style>
+        ul {
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <ul class="list-view">
+
+    </ul>
+
+    <div class="cat-view">
+        <div class="cat-name"></div>
+        <img class="cat-img" src="" alt="cat">
+        <div class="cat-count"></div>
+    </div>
+
+    <div class="admin-view">
+        <button class="admin-btn">admin</button>
+        <br>
+        <div class="edit-view">
+            <label for="" class="label-name">name</label>
+            <input type="text" class="input-name">
+            <label for="" class="label-img">img</label>
+            <input type="text" class="input-img">
+            <label for="" class="label-count">count</label>
+            <input type="text" class="input-count">
+            <br>
+            <button class="save-btn">save</button>
+            <button class="cancel-btn">cancel</button>
+        </div>
+    </div>
+    <script>
+        var model = {
+            currentCat: null,
+            cats: [
+                { name: 'cat1', count: 0 , img: 'cat.jpg'},
+                { name: 'cat2', count: 0 , img: 'cat2.jpg'},
+                { name: 'cat3', count: 0 , img: 'cat3.jpg'},
+                { name: 'cat4', count: 0 , img: 'cat4.jpg'},
+                { name: 'cat5', count: 0 , img: 'cat5.jpg'},
+            ]
+        };
+
+        var catView = {
+            dom: null,
+            catName: null,
+            catImg: null,
+            catCount: null,
+            render: function(){
+                var cat = octopus.getCurrentCat();
+                this.catNameElem.innerHTML = cat.name;
+                this.catImgElem.src = cat.img;
+                this.catCountElem.innerHTML = cat.count;
+            },
+            init: function(){
+                this.dom = document.querySelector('.cat-view');
+                this.catNameElem = document.querySelector('.cat-name');
+                this.catImgElem = document.querySelector('.cat-img');
+                this.catCountElem = document.querySelector('.cat-count');
+                this.catImgElem.addEventListener('click', octopus.incrementCounter, false);
+                this.render();
+            }
+        };
+
+        var listView = {
+            dom: null,
+            render: function(){
+                octopus.getCats().forEach(function(value){
+                    var li = document.createElement('li');
+                    li.innerHTML = value.name;
+                    li.addEventListener('click', function(){
+                        octopus.setCurrentCat(value);
+                        catView.render();
+                        adminView.render();
+                    }, false);
+                    this.dom.append(li);
+                }.bind(this))
+            },
+            init: function(){
+                this.dom = document.querySelector('.list-view');
+                this.render();
+            }
+        }
+
+        var adminView = {
+            show: false,
+            editView: null,
+            adminBtn: null,
+            nameInput: null,
+            imgInput: null,
+            countInput: null,
+            render: function(){
+                var cat = octopus.getCurrentCat();
+                this.editView.style.display = this.show ? 'block' : 'none';
+                if(this.show){
+                    this.nameInput.value = cat.name;
+                    this.imgInput.value = cat.img;
+                    this.countInput.value = cat.count;
+                }
+            },
+            init: function(){
+                this.adminBtn = document.querySelector('.admin-btn');
+                this.editView = document.querySelector('.edit-view');
+                this.nameInput = document.querySelector('.input-name');
+                this.imgInput = document.querySelector('.input-img');
+                this.countInput = document.querySelector('.input-count');
+                this.saveBtn = document.querySelector('.save-btn');
+                this.cancelBtn = document.querySelector('.cancel-btn');
+                this.adminBtn.addEventListener('click', function(){
+                    this.show = true;
+                    this.render();
+                }.bind(this), false);
+                this.saveBtn.addEventListener('click', function(){
+                    octopus.setCurrentCat({
+                        name: this.nameInput.value,
+                        img: this.imgInput.value,
+                        count: this.countInput.value
+                    });
+                    catView.render();
+                }.bind(this), false);
+                this.cancelBtn.addEventListener('click', function(){
+                    this.show = false;
+                    this.render();
+                }.bind(this), false);
+
+                this.render();
+            }
+        }
+        
+        var octopus = {
+            setCurrentCat: function(cat){
+                Object.assign(model.currentCat, cat);
+            },
+            incrementCounter: function(){
+                model.currentCat.count++;
+                catView.render();
+            },
+            getCats: function(){
+                return model.cats;
+            },
+            getCurrentCat: function(){
+                return model.currentCat;
+            },
+            init: function(){
+                model.currentCat = model.cats[0];
+                catView.init();
+                listView.init();
+                adminView.init();
+            }
+        }
+
+        // go
+        octopus.init();
+    
+    </script>
+</body>
+
+</html>
