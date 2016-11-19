@@ -74,6 +74,7 @@
         var listView = {
             dom: null,
             render: function(){
+                this.dom.innerHTML = '';
                 octopus.getCats().forEach(function(value){
                     var li = document.createElement('li');
                     li.innerHTML = value.name;
@@ -124,7 +125,10 @@
                         name: this.nameInput.value,
                         img: this.imgInput.value,
                         count: this.countInput.value
-                    });
+                    }, true);
+                    this.show = false;
+                    this.render();
+                    listView.render();
                     catView.render();
                 }.bind(this), false);
                 this.cancelBtn.addEventListener('click', function(){
@@ -137,8 +141,12 @@
         }
         
         var octopus = {
-            setCurrentCat: function(cat){
-                Object.assign(model.currentCat, cat);
+            setCurrentCat: function(cat, isExtend){
+                if(isExtend){
+                    Object.assign(model.currentCat, cat);
+                }else{
+                    model.currentCat = cat;
+                }
             },
             incrementCounter: function(){
                 model.currentCat.count++;
