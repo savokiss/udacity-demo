@@ -12,7 +12,6 @@ var model = {
         'Xiao Yan': []
     },
     setData(params){
-        console.log(params);
         this.data[params.name][params.index] = params.value;
         this.persist();
     },
@@ -71,8 +70,6 @@ var tableView = {
                     var student = input.parent().parent();
                     var nameEle = student.find('.name-col');
                     var colList = student.find('.attend-col');
-                    console.log('ele',nameEle);
-                    console.log(colList);
                     octopus.setData({
                         name: nameEle.html(),
                         index: colList.index(input.parent()),
