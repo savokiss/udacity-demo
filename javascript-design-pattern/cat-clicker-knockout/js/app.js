@@ -14,6 +14,6 @@ var ViewModel = function () {
 
     this.incrementCounter = function () {
         this.currentCat().clickCount(this.currentCat().clickCount() + 1);
-    };
+    }.bind(this) // this的作用域会根据页面中的 with 而变化
 }
 ko.applyBindings(new ViewModel());
