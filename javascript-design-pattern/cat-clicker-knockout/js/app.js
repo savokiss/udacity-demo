@@ -1,6 +1,6 @@
 var ViewModel = function(){
     this.clickCount = ko.observable(0);
-    this.nicknames = ['a','b','savo','xy'];
+    this.nicknames = ['Tom','Jerry','savo','xiaoyan'];
     this.name = ko.observable('Tabby');
     this.imgSrc = ko.observable('img/434164568_fea0ad4013_z.jpg');
     this.imgAttribution = ko.observable('https://www.flickr.com/photos/big');
